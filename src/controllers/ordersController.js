@@ -45,8 +45,12 @@ export async function getOrderById(req, res) {
 
     let  whereClause = ` WHERE o.id = '${id}'`;
     const result = await postgresRepository.getOrderByIdPG(whereClause);
-
-    res.send(_mapOrdersArrayToObject(result.rows[0]));
+    if(result.rows<1){
+      res.sendStatus(404);
+    }else{
+      res.send(_mapOrdersArrayToObject(result.rows[0])).status(200);
+    }
+  
 
   } catch (error) {
     console.log(error);

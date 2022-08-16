@@ -8,5 +8,4 @@ orderRouter.post("/order", validateSchema(orderSchema), postOrder);
 orderRouter.get("/orders", getOrders);
 orderRouter.get("/orders/:id", getOrderById);
 
-
 export default orderRouter;
