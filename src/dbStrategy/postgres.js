@@ -14,18 +14,25 @@ if(process.env.MODE=="heroku"){
             rejectUnauthorized: false
         }
     }
-}
-
-if(process.env.MODE=="local"){
+}else if(process.env.MODE=="local"){
     databaseConfig = {
     
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: '123',
-    database: 'la_boleria'
+        host: 'localhost',
+        port: 5432,
+        user: 'postgres',
+        password: '123',
+        database: 'la_boleria'
     }
-}
+}else{
+    databaseConfig = {
+    
+        host: 'localhost',
+        port: 5432,
+        user: 'postgres',
+        password: '123',
+        database: 'la_boleria'
+    }
+} 
 
 const connection = new Pool(databaseConfig);
 
