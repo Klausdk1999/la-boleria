@@ -5,7 +5,11 @@ async function insertCake(cakeInfo) {
         `INSERT INTO cakes (name, price, image,description) VALUES ($1, $2, $3, $4);`, cakeInfo
     );
 }
-
+async function insertClient(clientInfo) {
+	return connection.query(
+        `INSERT INTO clients (name, address, phone) VALUES ($1, $2, $3);`, clientInfo
+    );
+}
 async function getURLbyID(id) {
 	return connection.query(
         `SELECT * FROM urls WHERE urls.id=$1;`
@@ -43,7 +47,7 @@ async function getUrlsByUser(user_id) {
 
 export const postgresRepository = {
 	insertCake,
-    getURLbyID,
+    insertClient,
     getByShortUrl,
     updateViewCount,
     deleteById,
