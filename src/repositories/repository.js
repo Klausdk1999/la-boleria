@@ -1,8 +1,8 @@
 import connection from "../dbStrategy/postgres.js";
 
-async function insertURL(id,url,shortUrl) {
+async function insertCake(cakeInfo) {
 	return connection.query(
-        `INSERT INTO urls ("user_id", "url", "short_url", "view_count") VALUES ($1, $2, $3, $4);`, [id, url, shortUrl, 0]
+        `INSERT INTO cakes (name, price, image,description) VALUES ($1, $2, $3, $4);`, cakeInfo
     );
 }
 
@@ -42,7 +42,7 @@ async function getUrlsByUser(user_id) {
 
 
 export const postgresRepository = {
-	insertURL,
+	insertCake,
     getURLbyID,
     getByShortUrl,
     updateViewCount,

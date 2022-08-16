@@ -1,11 +1,13 @@
 import pg from 'pg';
-import env from "dotenv";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const { Pool } = pg;
 
 let databaseConfig;
 
-if(process.env.mode=="heroku"){
+if(process.env.MODE=="heroku"){
     databaseConfig = {
         connectionString: process.env.DATABASE_URL,
         ssl: {
@@ -14,7 +16,7 @@ if(process.env.mode=="heroku"){
     }
 }
 
-if(process.env.mode=="local"){
+if(process.env.MODE=="local"){
     databaseConfig = {
     
     host: 'localhost',
