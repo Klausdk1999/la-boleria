@@ -16,7 +16,8 @@ export async function postOrder(req, res) {
 } 
 
 export async function getOrders(req, res) {
-  const { date } = req.params;
+  const { date } = req.query;
+  console.log(date)
   try {
     const conditions = [];
     let whereClause = '';
@@ -38,38 +39,20 @@ export async function getOrders(req, res) {
   }
 }
 
-// export async function getOrders(req, res) {
-//     const { email, password } = req.body;
-  
-//     try {
-//       const { rows: user } = await connection.query(
-//         `SELECT * FROM users WHERE email = $1;`,
-//         [email]
-//       );
-  
-//       if (user.length === 0) {
-//         return res.sendStatus(401);
-//       }
-  
-//       const checkPassword = bcrypt.compareSync(password, user[0].password);
-  
-//       if (!checkPassword) {
-//         return res.sendStatus(401);
-//       }
-  
-//       const secretKey = process.env.JWT_SECRET;
-//       const token = jwt.sign({ id: user[0].id }, secretKey);
-     
-//       await connection.query(
-//         `INSERT INTO sessions (token,user_id) VALUES ($1,$2);`,
-//         [token,user[0].id]
-//       );
+export async function getOrderById(req, res) {
+  const { id } = req.params;
+  try {
 
-//       return res.status(200).send({ token });
-//     } catch (error) {
-//       return res.status(400).send(error);
-//     }
-// }
+    let  whereClause = ` WHERE o.id = '${id}'`;
+    const result = await postgresRepository.getOrderByIdPG(whereClause);
+
+    res.send(_mapOrdersArrayToObject(result.rows[0]));
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
 
 
 function _mapOrdersArrayToObject(row) {

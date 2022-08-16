@@ -30,9 +30,18 @@ async function getOrders(whereClause) {
     );
 }
 
-async function updateViewCount(view_count,shortUrl) {
+async function getOrderByIdPG(whereClause) {
+    
 	return connection.query(
-        `UPDATE urls SET view_count = $1 WHERE short_url=$2;`,[view_count,shortUrl]
+        {
+          text: `
+          SELECT o.client_id,c.name,c.address,c.phone,o.cake_id,ca.name as cake_name,ca.price,ca.description,
+          ca.image,o.id as order_id,o.created_at,o.quantity,o.total_price from (orders o join clients c ON c.id = o.client_id) 
+          join cakes ca on o.cake_id=ca.id 
+          ${whereClause}
+        `,
+          rowMode: 'array'
+        }
     );
 }
 
@@ -56,6 +65,6 @@ export const postgresRepository = {
     insertClient,
     insertOrder,
     getOrders,
-    deleteById,
+    getOrderByIdPG,
     getUrlsByUser
 }
