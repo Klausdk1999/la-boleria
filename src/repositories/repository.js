@@ -10,13 +10,11 @@ async function insertClient(clientInfo) {
         `INSERT INTO clients (name, address, phone) VALUES ($1, $2, $3);`, clientInfo
     );
 }
-async function getURLbyID(id) {
+async function insertOrder(orderInfo) {
 	return connection.query(
-        `SELECT * FROM urls WHERE urls.id=$1;`
-        , [id]
-    ); 
+        `INSERT INTO orders (client_id, cake_id, quantity,total_price) VALUES ($1, $2, $3 , $4);`, orderInfo
+    );
 }
-
 async function getByShortUrl(shortUrl) {
 	return connection.query(
         `SELECT * FROM urls WHERE short_url= $1;`
@@ -48,7 +46,7 @@ async function getUrlsByUser(user_id) {
 export const postgresRepository = {
 	insertCake,
     insertClient,
-    getByShortUrl,
+    insertOrder,
     updateViewCount,
     deleteById,
     getUrlsByUser

@@ -1,34 +1,19 @@
-import connection from "../dbStrategy/postgres.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { postgresRepository } from "../repositories/repository.js";
 
-export async function signUp(req, res){
-    const hashparam = 10;
-    const passwordEncrypt = bcrypt.hashSync(req.body.password, hashparam);
-    const user = { ...req.body, password: passwordEncrypt};
-    const { name, email, password } = user;
+export async function postOrder(req, res) {
+  const { clientId,cakeId,quantity,totalPrice } = req.body;
 
-    try{
-        if (req.body.password !== req.body.confirmPassword) {
-          return res.status(422).send("As senhas não sao iguais");
-        }
-
-        const { rows : userExist } = await connection.query(
-            "SELECT * FROM users WHERE email = $1;", [user.email]
-        );
-        if (userExist.length !== 0){
-            return res.sendStatus(409);
-        }
-
-        await connection.query(
-            `INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, password]
-        );
-        res.sendStatus(201);
+  try {
+    await postgresRepository.insertOrder([clientId,cakeId,quantity,totalPrice]);
+    return res.sendStatus(201);
+  } catch (error) {
+    if (error.code==="23503"){
+      return res.sendStatus(404);
     }
-    catch (error){
-      return res.status(400).send(error);
-    }
-}
+    console.log(error)
+    return res.status(500).send(error);
+  }
+} 
 
 export async function signIn(req, res) {
     const { email, password } = req.body;

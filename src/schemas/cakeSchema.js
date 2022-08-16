@@ -16,6 +16,6 @@ export const clientSchema = joi.object({
 export const orderSchema = joi.object({
     clientId: joi.number().required(),
     cakeId: joi.number().required(),
-    quantity: joi.number().required(),
+    quantity: joi.number().required().less(6),
     totalPrice: joi.number().precision(2).required()
 }); 
