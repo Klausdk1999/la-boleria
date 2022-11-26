@@ -1,5 +1,5 @@
 # la-boleria
-La-Boleria, is an Restful API, made to control one Bakery. It uses a PostgreSQL database to store users, cakes, and orders. It is here to show some more complex SQL querys, and their integration with an API.
+La-Boleria, is a REST API, made to control one Bakery. It uses a PostgreSQL database to store users, cakes, and orders. It is here to show some more complex SQL querys, and their integration with an API.
 
 Documentation in Portuguese:
 
